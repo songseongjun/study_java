@@ -38,7 +38,7 @@ public class EX250410 {
          int count =0;
          
          for(int i =1; i<=num; i++) {
-        	 System.out.printf("%d:%d>>%s\n",i,num%i == 0 ?"약수":"약수아님");
+        	 System.out.printf("%d:%d>>%s\n",i,num % i == 0 ?"약수":"약수아님");
         	 if(num%i==0) {
         		 count++;
         	 }
