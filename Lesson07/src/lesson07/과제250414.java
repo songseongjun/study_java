@@ -18,7 +18,9 @@ public class 과제250414 {
 		for (int i = 2; i <n ; i++) {
 			fibo[i]= fibo[i-2]+fibo[i-1];
 		}
-	 System.out.print(fibo+" ");
+		for(int i=0; i<n; i++) {
+			System.out.print(fibo[i]+"  ");	
+	 System.out.print(fibo[i]+" ");
 		
 		
 		
