@@ -1,6 +1,8 @@
 package lesson07;
 
-public class MemberMain {
+import Lesson08.Member;
+
+public class Membermain {
 	public static void main(String[] args) {
 		
 		Member m =new Member();

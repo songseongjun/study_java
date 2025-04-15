@@ -1,6 +1,6 @@
 package lesson05;
 
-public class IFex2 {
+public class IFex2학점부여 {
 	public static void main(String[] args) {
 		int score/*(변수)*/ = 60;
 		String grade ="";

@@ -2,6 +2,8 @@ package lesson07;
 
 import java.util.Arrays;
 
+import Lesson08.Member;
+
 public class MemberMain2 {
 	public static void main(String[] args) {
 		Member[] members =new Member[3];//배열을 초기화하기위한생성
