@@ -21,10 +21,10 @@ public class Student {
   int total() {
 	  return (kor+eng+mat);
   }
-  
+  //평균 계산 double type
   double average() {
       return total() / 3.0; 
   }
 
-  //평균 계산 double type
+ 
 }

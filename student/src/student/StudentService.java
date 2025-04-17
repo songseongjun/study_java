@@ -25,6 +25,7 @@ public class StudentService {
 
 		}
 		students[count++] = new Student(no, name, kor, eng, mat);
+		
 
 	}
 
@@ -56,7 +57,7 @@ public class StudentService {
             s.mat = StudentUtils.nexInt("수학> ");
             System.out.println("학생 정보가 수정되었습니다.");
 	        System.out.println("해당 학번의 학생을 찾을 수 없습니다.");
-	    }students[i]=new Student(no,name,kor,eng,mat);
+	    }
 	// 삭제
 
 	void remove() {
@@ -78,16 +79,41 @@ public class StudentService {
 		System.arraycopy(arr, idx + 1, arr, idx, arr.length - 1 - idx);
 		System.out.println(Arrays.toString(arr));
 	}
-
+     // 평균값 총평균 조회
 	void avg() {
-		System.out.println("점수당 평균값 출력 기능");
-	     int count=0;
-	     double total=0;
-	     for (int i = 0; i < students.length; i++) {
-              sum+=total;			
-		}
-		}
-	   } 
+	    int korSum = 0,engSum = 0,matSum = 0;
+	    for (int i = 0; i < count; i++) {
+	        Student s = students[i];
+	    }
+	    if (count > 0) {
+	        System.out.println("--------과목별 평균--------");
+	        System.out.println("국어 평균:"+(korSum/count));
+	        System.out.println("영어 평균: "+(engSum/count));
+	        System.out.println("수학 평균: "+(matSum/count));
+	        int totalSum = korSum+engSum+matSum;
+	        double totalavg = totalSum/(count * 3.0);
+	        System.out.println("전체 평균:"+totalavg);
+	    }
+	       
+	}
+	
+	//석차순 조회
+	void sbts() {
+		for (int i = 0; i <count-1; i++) {
+			for (int j = 0; j < count-1-i; j++) {
+				if(students[j].total()<students[j+1].total());
+				students=temp;
+				students[i]=studnet[j]+1;
+				students[j+1]=temp;
+					}
+			}System.out.println("========= 총점 기준 석차 정렬 결과 =========");
+			 for (int i = 0; i < count; i++) {
+	       Student s = students[i];
+		   System.out.println((i + 1) +"등:"+s.name +"(총점:"+s.total()+",평균:"+s.average()+")");
+			}
+	     }
+	
+
 	}
 
 //1.중복 학번 학생 등록 방지
