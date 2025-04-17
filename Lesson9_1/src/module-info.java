@@ -4,5 +4,5 @@
 /**
  * 
  */
-module student {
+module Lesson9_1 {
 }

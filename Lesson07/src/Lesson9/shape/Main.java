@@ -9,14 +9,14 @@ public static void main(String[] args) {
         Rect rect=new Rect(4,5);
 //        System.out.println(rect.area());//
 //        System.out.println(rect.circum());//
-        
-        
+ 
         Shape[ ] shapes = {circle,rect};
         
         for (int i = 0; i < shapes.length; i++) {
         	System.out.println("==========="+shapes[i].getClass().getSimpleName()+"========");
 			System.out.println(shapes[i].Area());
-			System.out.println(shapes[i].circum());
+			System.out.println(shapes[i].Circum());
+        
 		}
 
 }
