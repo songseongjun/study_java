@@ -1,4 +1,4 @@
-package Lesson9;
+package Lesson08_1;
 
 public class SmartPhoneMain {
 	public static void main(String[] args) {
