@@ -17,15 +17,16 @@ public class Member implements Cloneable{
 		return obj !=null && obj instanceof Member
 		&&((Member)obj).tel.equals(this.tel);			
 	}
-	public Object clone() {
+	public Member clone() {//클론은 반환타입을 부모타입이든 자식타입이든 바꿀수있다 
+		Member member =null;
 	try {
-		return super.clone();	
+		member=(Member)super.clone();	
 	}
 	catch(CloneNotSupportedException e){
 		e.printStackTrace();
 		
 	}
-	return null;
+	return member;
 	}
   }
   
