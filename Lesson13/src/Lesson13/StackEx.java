@@ -4,9 +4,9 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class Stack {
+public class StackEx {
 public static void main(String[] args) {
-	Stack<String>stack =new Stack<String>();
+	StackEx<String>stack =new StackEx<String>();
 	stack.push("A");
 	stack.push("B");
 	stack.push("C");
