@@ -2,8 +2,11 @@ package student;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -14,8 +17,8 @@ public class StudentService {
     private List<Student> students = new ArrayList<>();
     private List<Student> sortedStudents = new ArrayList<>();
     //학생 예제 내의 정렬을 List의 sort로 구현, Comparator 사용
-    {
-        students.add(new Student(1, "개똥이", randScore(), randScore(), randScore()));
+    {   students.add(Student.builder().no(1).name("개똥이").kor(randScore()).eng(randScore()).mat(randScore()).build());
+//        students.add(new Student(1, "개똥이", randScore(), randScore(), randScore()));
         students.add(new Student(2, "새똥이", randScore(), randScore(), randScore()));
         students.add(new Student(3, "말똥이", randScore(), randScore(), randScore()));
         students.add(new Student(4, "소똥이", randScore(), randScore(), randScore()));
@@ -25,7 +28,13 @@ public class StudentService {
 		
 	
     }
-    
+    private static StudentService studentService =new StudentService();
+    private StudentService() {
+    	
+    }
+    public static StudentService getInstance() {
+    	return studentService;
+    }
     
     private int randScore() {
         return (int)(Math.random() * 41) + 60;
@@ -189,39 +198,19 @@ String name = inputName();
 	}
     //석차순조회
 	public void rank() {
-		for(int i = 0 ; i < sortedStudents.size() - 1; i++ ) {
-			int idx = i;
-			for(int j = 1 + i ; j < sortedStudents.size() ; j++) {
-				if(sortedStudents.get(idx).total() < sortedStudents.get(j).total()) {
-					idx = j;
-				}
-			}
-			Student tmp = sortedStudents.get(i);
-			sortedStudents.set(i, sortedStudents.get(idx));
-			sortedStudents.set(idx, tmp);
-			
-			List<Integer> students =new ArrayList<Integer>(Arrays.asList());
-			Comparator<Integer> comparator =new Comparator<Integer>() {
-				
-				@Override
-				public int compare(Integer o1, Integer o2) {
-			
-					return (o1-o2);
-				}
-			};
-			students.sort(comparator);
-			students.sort(new Comparator<Integer>() {
-			@Override
-			public int compare(Integer students1, Integer students2) {
-				
-		 		return students2 - students1;
-			}
-		});
-			students.sort((Integer o1, Integer o2)-> {      
-				return -(o2-o1);
-				}
-			);
-		}		
+		
+		//2.TreeSet()
+		
+		//1.list.sort()
+//		sortedStudents.sort(new Comparator<Student>(){
+//			@Override
+//			public int compare(Student o1,Student o2) {
+//				return Double.compare(o2.avg(),o1.avg());
+//			}
+//			
+//		});
+		//3.collections
+		Collections.sort(sortedStudents,(o1,o2)->o2.total()-o1.total());
 	}
 	
 }

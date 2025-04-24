@@ -76,4 +76,57 @@ public class Student {
 	public String toString() {
 		return String.format("%5d %5s %5d %5d %5d %6.2f %5d", no, name, kor, eng, mat, avg(), total());
 	}
+	
+	public static Builder builder(){
+		return new Builder();
+	}
+	   static class Builder{
+		private int no;
+		private String name;
+		private int kor;
+		private int eng;
+		private int mat;
+
+	public	Builder no (int no) {
+			this.no=no;
+			return this;
+		}
+	public	Builder name(String name) {
+			this.name=name;
+			return this;
+		}
+	public	Builder kor(int kor) {
+			this.kor=kor;
+			return this;
+		}
+	public Builder eng(int eng) {
+			this.eng=eng;
+			return this;
+		}
+	public Builder mat(int mat) {
+			this.mat=mat;
+			return this;
+		}
+		
+	public Student build() {
+		return new Student(this);
+		}
+	}
+	
+	private Student(Builder builder) {
+		this.no =builder.no;
+		this.name=builder.name;
+		this.kor=builder.kor;
+		this.eng=builder.eng;
+		this.mat=builder.mat;
+	}
+	
+	
+	
+	
+	public static void main(String[] args) {
+		Student student =Student.builder().no(1).name("새똥이").kor(90).build();
+		System.out.println(student);//과제 여기처럼바꾸라고 이것만
+	}
+	
 }
