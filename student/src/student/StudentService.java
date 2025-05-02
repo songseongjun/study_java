@@ -1,46 +1,60 @@
 package student;
 
+package student;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Random;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
-
-
+@SuppressWarnings("unchecked")
 public class StudentService {
-    private List<Student> students = new ArrayList<>();
-    private List<Student> sortedStudents = new ArrayList<>();
-    //학생 예제 내의 정렬을 List의 sort로 구현, Comparator 사용
-    {   students.add(Student.builder().no(1).name("개똥이").kor(randScore()).eng(randScore()).mat(randScore()).build());
-//        students.add(new Student(1, "개똥이", randScore(), randScore(), randScore()));
-        students.add(new Student(2, "새똥이", randScore(), randScore(), randScore()));
-        students.add(new Student(3, "말똥이", randScore(), randScore(), randScore()));
-        students.add(new Student(4, "소똥이", randScore(), randScore(), randScore()));
+	private List<Student> students = new ArrayList<Student>();
+	private List<Student> sortedStudents;
 
-        sortedStudents = new ArrayList<Student>(students);
+	{
+		ObjectInputStream ois = null;
+		try {
+			ois = new ObjectInputStream(new FileInputStream("data/student.ser"));
+			students = (List<Student>)ois.readObject();
+			ois.close();
+		}
+		catch(FileNotFoundException e) {
+			System.out.println("파일을 불러 올수 없습니다. 임시 데이터셋으로 진행합니다.");
+			students.add(Student.builder().no(1).name("개똥이").kor(randomScore()).eng(randomScore()).mat(randomScore()).build());
+			students.add(new Student(2, "새똥이", randomScore(), randomScore(), randomScore()));
+			students.add(new Student(3, "말똥이", randomScore(), randomScore(), randomScore()));
+			students.add(new Student(4, "소똥이", randomScore(), randomScore(), randomScore()));
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		sortedStudents = new ArrayList<Student>(students);
 		rank();
-		
+	}
 	
-    }
-    private static StudentService studentService =new StudentService();
-    private StudentService() {
-    	
-    }
-    public static StudentService getInstance() {
-    	return studentService;
-    }
-    
-    private int randScore() {
-        return (int)(Math.random() * 41) + 60;
-    }
- // 입력 : 학번
- 	// 출력 : 학생
+	private static StudentService studentService = new StudentService();
+	private StudentService() {
+		
+	}
+	public static StudentService getInstance() {
+		return studentService;
+	}
+	
+	
+	public int randomScore() {
+		return (int)(Math.random() * 41 + 60);
+	}
+	
+	
+	// 입력 : 학번
+	// 출력 : 학생
 	public Student findBy(int no) {
 		Student student = null;
 		for(int i = 0 ; i < students.size() ; i++) {
@@ -51,8 +65,7 @@ public class StudentService {
 		}
 		return student;
 	}
-
-    //	이름 입력은 한글만 인정.하는부분
+   //	이름 입력은 한글만 인정.하는부분
 	public int checkRange(String subject, int input, int start, int end) {
 		if(input < start || input > end) {
 			throw new IllegalArgumentException(subject + "값의 범위가 벗어났습니다. " + start + "~" + end + "사이의 입력을 해주세요");
@@ -70,12 +83,12 @@ public class StudentService {
 		}
 		return name;
 	}
- // 등록
+	// 등록
 	public void register() {
 		System.out.println("등록 기능");
 		// 학생 생성
 		// 학번, 이름, 국어, 영어, 수학
-		int no = StudentUtils.nexInt("학번 > ");
+		int no = StudentUtils.nextInt("학번 > ");
 		
 		Student s = findBy(no);
 		
@@ -84,45 +97,29 @@ public class StudentService {
 			return;
 		}
 		
-      //풀이
-//      		int no = StudentUtils.nexInt("학번 : " );
-//      		Student s = findBy(no);
-//      		
-//      		if(s != null) {
-//      			System.out.println("중복된 학번이 존재합니다. ");
-//      		}
-//
-//      			return;
-//      		}
-//      		for(int i = 0 ; i < count ; i++) {
-//      			if(no == students[i].no) {
-//      				System.out.println("중복된 학번입니다.");
-//      				return ;	//초기메뉴로 돌아간다
-//      			}
-//      		}
-String name = inputName();
+		String name = inputName();
 		
-		int kor = StudentUtils.nexInt("국어 > ");
+		int kor = StudentUtils.nextInt("국어 > ");
 		checkRange("국어", kor);
 		
-		int eng = StudentUtils.nexInt("영어 > ");
+		int eng = StudentUtils.nextInt("영어 > ");
 		checkRange("영어", eng);
 		
-		int mat = StudentUtils.nexInt("수학 > ");
+		int mat = StudentUtils.nextInt("수학 > ");
 		checkRange("수학", mat);
 		Student s2 = new Student(no, name, kor, eng, mat);
 		students.add(s2);
 		sortedStudents.add(s2);
 		rank();
+		save();
 	}
-     
         //복제하고 정렬해라
       //students[0]에 학생의 정보 입력
 //    	students[count++] = new Student(no, name, kor, eng, mat);
 //    	sortedStudents = Arrays.copyOf(students, students.length);
 //    	rank();
  
- // 조회
+	// 조회
 	public void read() {
 		System.out.println("조회 기능");
 		print(students);
@@ -136,7 +133,7 @@ String name = inputName();
 		stu.forEach(s -> System.out.println(s));
 	}
 	
- // 수정
+	// 수정
 	public void modify() {
 		System.out.println("수정 기능");
 		// 학생들 배열에서 입력받은 학번과 일치하는 학생
@@ -151,10 +148,10 @@ String name = inputName();
 		s.setKor(checkRange("국어", StudentUtils.nexInt("국어 > ")));
 		s.setEng(checkRange("영어", StudentUtils.nexInt("영어 > ")));
 		s.setMat(checkRange("수학", StudentUtils.nexInt("수학 > ")));
-		rank();	
-	}          //복제하고 정렬해라
-  
- // 삭제
+		rank();
+		save();
+	}       //복제하고 정렬해라
+	// 삭제
 	public void remove() {
 		System.out.println("삭제 기능");
 		int no = StudentUtils.nexInt("삭제할 학생의 학번 > ");
@@ -165,6 +162,7 @@ String name = inputName();
 		}
 		students.remove(s);
 		sortedStudents.remove(s);
+		save();
 	}
 	
 	public void allAvg() {
@@ -196,21 +194,24 @@ String name = inputName();
 		System.out.println("전체 평균" + avgAll);
 		
 	}
-    //석차순조회
+	
 	public void rank() {
-		
-		//2.TreeSet()
-		
-		//1.list.sort()
-//		sortedStudents.sort(new Comparator<Student>(){
-//			@Override
-//			public int compare(Student o1,Student o2) {
-//				return Double.compare(o2.avg(),o1.avg());
-//			}
-//			
-//		});
-		//3.collections
-		Collections.sort(sortedStudents,(o1,o2)->o2.total()-o1.total());
+		Collections.sort(sortedStudents, (o1, o2) -> o2.total() - o1.total());
+	}
+	  //석차순조회
+	private void save() {
+		try {
+			File file = new File("data");
+			if(!file.exists()) {
+				file.mkdirs();
+			}
+			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(file, "student.ser")));
+			oos.writeObject(students);
+			oos.close();
+		} catch (IOException e) {
+			System.out.println("파일 접근 권한이 없습니다.");
+			e.printStackTrace();
+		}
 	}
 	
 }

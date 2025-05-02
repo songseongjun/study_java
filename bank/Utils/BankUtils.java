@@ -1,4 +1,4 @@
-package BankUtils;
+package Utils;
 import java.util.Scanner;
 
 public class BankUtils {
@@ -18,7 +18,7 @@ public class BankUtils {
  
   
   public static boolean nextConfirm(String msg) {
-	String s =nextLine(msg);
+	String s =nextLine(msg+"{y/n]");
 	return s.equalsIgnoreCase("y")||s.equalsIgnoreCase("yes");
   }
 
